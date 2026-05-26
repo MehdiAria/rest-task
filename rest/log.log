@@ -1,7 +1,0 @@
-2022-06-29 07:58:06,676 django.utils.autoreload INFO     Watching for file changes with StatReloader
-2022-06-29 07:58:09,037 django.request WARNING  Not Found: /
-2022-06-29 07:58:09,464 django.request WARNING  Not Found: /favicon.ico
-2022-06-29 07:58:38,306 django.request WARNING  Not Found: /api/posts/
-2022-06-29 07:58:38,599 django.request WARNING  Not Found: /favicon.ico
-2022-06-29 08:00:04,790 django.request WARNING  Bad Request: /api/posts/rate
-2022-06-29 08:00:12,489 django.request WARNING  Method Not Allowed: /api/posts/rate
