@@ -1,0 +1,17 @@
+[project]
+name = "telegram-gifting-platform"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "django>=5,<6",
+  "djangorestframework",
+  "djangorestframework-simplejwt",
+  "celery",
+  "redis",
+  "psycopg2-binary",
+  "structlog",
+  "opencv-python-headless",
+  "pyautogui",
+  "psutil",
+  "gunicorn",
+]

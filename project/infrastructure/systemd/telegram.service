@@ -1,0 +1,11 @@
+[Unit]
+Description=Telegram Desktop
+After=network.target xvfb.service
+[Service]
+User=telegram
+Environment=DISPLAY=:99
+ExecStart=/usr/bin/telegram-desktop
+Restart=always
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
