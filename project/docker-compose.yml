@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+  web:
+    build: ./docker
+    command: gunicorn config.wsgi:application -b 0.0.0.0:8000 -w 4
+    restart: always
+    env_file: .env
+    volumes: ["./project:/app"]
+    depends_on: [postgres, redis]
+  celery_worker:
+    build: ./docker
+    command: celery -A workers.celery_app worker -Q critical,recovery --loglevel=INFO
+    restart: always
+    env_file: .env
+    volumes: ["./project:/app"]
+    depends_on: [redis, postgres]
+  celery_beat:
+    build: ./docker
+    command: celery -A workers.celery_app beat --loglevel=INFO
+    restart: always
+    env_file: .env
+    volumes: ["./project:/app"]
+    depends_on: [redis, postgres]
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: gifting
+      POSTGRES_USER: gifting
+      POSTGRES_PASSWORD: gifting
+    volumes: ["pg_data:/var/lib/postgresql/data"]
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    restart: always
+    volumes: ["redis_data:/data"]
+  nginx:
+    image: nginx:stable
+    restart: always
+    ports: ["80:80"]
+    volumes: ["./docker/nginx.conf:/etc/nginx/nginx.conf:ro"]
+    depends_on: [web]
+  prometheus:
+    image: prom/prometheus
+    volumes: ["./project/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro"]
+    ports: ["9090:9090"]
+  grafana:
+    image: grafana/grafana
+    ports: ["3000:3000"]
+    volumes: ["./project/monitoring/grafana:/etc/grafana/provisioning"]
+volumes:
+  pg_data: {}
+  redis_data: {}
